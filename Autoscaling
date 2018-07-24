@@ -1,0 +1,6 @@
+kubectl autoscale deployment wordpress --cpu-percent=50 --min=1 --max=10
+kubectl apply -f ./wordpress-deployment.yaml
+kubectl autoscale deployment wordpress --cpu-percent=50 --min=1 —max=5
+kubectl run -i --tty load-generator --image=busybox /bin/sh
+while true; do wget -q -O- http://wordpress.default.svc.cluster.local; done
+kubectl get hpa
