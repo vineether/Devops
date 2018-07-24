@@ -1,0 +1,39 @@
+
+# ~/cookbooks/workstation/recipes/setup.rb
+
+package 'nano'
+# or package 'vim-enhanced'
+
+package 'ntp'
+
+package 'git' do
+	action :install
+end
+
+file '/etc/motd' do
+	content "This server is the property of Chef
+	HOSTNAME: #{node['hostname']}
+	IPADDRESS: #{node['ipaddress']}
+	CPU: #{node['cpu']['0']['mhz']}
+	MEMORY: #{node['memory']['total']}
+  "
+  action :create
+end
+
+
+# 6-3 Node Attributes
+# this command list is provided to accompany the demos in the Chef Fundamentals Udemy course
+# commands that involve editing files assume nano as the text editor
+# run these commands from your vagrant or cloud CentOS 7 instance
+
+cd ~
+cat /etc/motd
+ohai
+ohai ipaddress
+ohai hostname
+ohai memory
+ohai memory/total
+ohai cpu/0/mhz
+nano cookbooks/workstation/recipes/setup.rb
+sudo chef-client -zr "recipe[workstation]"
+cat /etc/motd
